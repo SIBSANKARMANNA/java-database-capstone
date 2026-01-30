@@ -1,0 +1,121 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Wrapper */
+  .wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    padding: 30px;
+  }
+  
+  /* Search Bar */
+  #searchBar {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Filters */
+  .filter-wrapper {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .filter-wrapper button,
+  .filter-wrapper input {
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .filter-wrapper button {
+    background-color: #015c5d;
+    color: white;
+  }
+  
+  .filter-wrapper button:hover {
+    background-color: #017d7e;
+  }
+  
+  /* Table */
+  #patientTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  #patientTable thead {
+    background-color: rgba(1, 92, 93, 0.9);
+    color: white;
+  }
+  
+  #patientTable th,
+  #patientTable td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  #patientTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  #patientTable tbody tr:hover {
+    background-color: #e0f0f0;
+  }
+  
+  /* Prescription Button */
+  .prescription-btn {
+    padding: 8px 12px;
+    background-color: #015c5d;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .prescription-btn:hover {
+    filter: brightness(1.2);
+  }
+  
+  /* Empty State */
+  .noPatientRecord {
+    text-align: center;
+    font-style: italic;
+    color: gray;
+    padding: 20px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .filter-wrapper {
+      flex-direction: column;
+    }
+  
+    #patientTable th,
+    #patientTable td {
+      font-size: 13px;
+      padding: 8px;
+    }
+  }
+  
