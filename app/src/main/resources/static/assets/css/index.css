@@ -1,0 +1,120 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Page Base */
+html, body {
+  height: 100%;
+  font-family: "Roboto", Arial, sans-serif;
+}
+
+/* Wrapper Layout */
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  background-image: url("../images/defineRole/index.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Heading */
+.main-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #013a3a;
+  font-weight: bold;
+}
+
+/* Role Buttons */
+.role-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.role-buttons button {
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #015c5d;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.role-buttons button:hover {
+  background-color: #017d7e;
+  transform: scale(1.05);
+}
+
+/* Modal Base */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Close Button */
+.close {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: space-around;
+  background-color: #012f30;
+  color: white;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+/* Footer Columns */
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-column a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-column a:hover {
+  text-decoration: underline;
+}

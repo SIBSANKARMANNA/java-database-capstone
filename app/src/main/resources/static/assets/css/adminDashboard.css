@@ -1,0 +1,115 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Layout Wrapper */
+  .wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Main Content Area */
+  .main-content {
+    flex: 1;
+    padding: 30px;
+    background-image: url("../images/defineRole/index.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+  /* Search Bar */
+  #searchBar {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  /* Filters */
+  .filter-wrapper {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .filter-wrapper select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+  
+  /* Content Area */
+  #content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* Admin Button */
+  .adminBtn {
+    background-color: #015c5d;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .adminBtn:hover {
+    background-color: #017d7e;
+  }
+  
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Modal Content */
+  #modal-body {
+    background-color: white;
+    width: 400px;
+    margin: 120px auto;
+    padding: 25px;
+    border-radius: 8px;
+  }
+  
+  /* Close Button */
+  .close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .filter-wrapper {
+      flex-direction: column;
+    }
+  
+    #modal-body {
+      width: 90%;
+    }
+  }
+  

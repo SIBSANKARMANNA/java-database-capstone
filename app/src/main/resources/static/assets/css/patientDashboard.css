@@ -1,0 +1,94 @@
+/* Doctor Card Actions */
+.card-actions {
+    background-color: #012f30;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .card-actions button {
+    background-color: #015c5d;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .card-actions button:hover {
+    filter: brightness(1.2);
+  }
+  
+  /* Ripple Effect */
+  .ripple {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: rgba(1, 92, 93, 0.4);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+  }
+  
+  @keyframes ripple-animation {
+    to {
+      transform: scale(15);
+      opacity: 0;
+    }
+  }
+  
+  /* Booking Modal Container */
+  .modal-content {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 420px;
+    background-color: white;
+    padding: 25px;
+    border-radius: 15px 15px 0 0;
+    transition: bottom 0.4s ease;
+  }
+  
+  /* Show Modal */
+  .modal.active .modal-content {
+    bottom: 0;
+  }
+  
+  /* Close Button */
+  .modal .close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 22px;
+    cursor: pointer;
+  }
+  
+  /* Modal Form Fields */
+  .modal-content input,
+  .modal-content select {
+    width: 90%;
+    margin: 12px auto;
+    padding: 10px;
+    display: block;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Booking Button */
+  .modal-content button {
+    width: 90%;
+    margin: 20px auto 0;
+    padding: 12px;
+    background-color: #012f30;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .modal-content button:hover {
+    filter: brightness(1.2);
+  }
+  
