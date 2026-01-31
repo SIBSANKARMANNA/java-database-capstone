@@ -11,10 +11,10 @@
 /home/project/java-database-capstone/app/src/main/java/com/project/back_end/services/AppointmentService.java
 /home/project/java-database-capstone/app/src/main/java/com/project/back_end/models/Appointment.java
 /home/project/java-database-capstone/app/src/main/java/com/project/back_end/controllers/DashboardController.java
-/home/project/java-database-capstone/app/src/main/java/com/project/back_end/services/Service.java
 /home/project/java-database-capstone/app/src/main/java/com/project/back_end/ClinicManagementSystemApplication.java
 /home/project/java-database-capstone/app/src/main/java/com/project/back_end/controllers/AdminController.java
 /home/project/java-database-capstone/app/src/main/java/com/project/back_end/DTO/AppointmentDTO.java
+/home/project/java-database-capstone/app/src/main/java/com/project/back_end/services/AuthService.java
 /home/project/java-database-capstone/app/src/main/java/com/project/back_end/models/Prescription.java
 /home/project/java-database-capstone/app/src/main/java/com/project/back_end/repo/AppointmentRepository.java
 /home/project/java-database-capstone/app/src/main/java/com/project/back_end/models/Doctor.java

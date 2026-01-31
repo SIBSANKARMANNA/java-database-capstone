@@ -4,16 +4,16 @@
 package com.project.back_end.controllers;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import java.util.Map;
 
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.project.back_end.services.TokenValidationService;
+import com.project.back_end.services.TokenService;
 
 
 
@@ -21,7 +21,7 @@ import com.project.back_end.services.TokenValidationService;
 public class DashboardController {
 
     @Autowired
-    private TokenValidationService tokenValidationService;
+    private TokenService tokenService;
 
     /**
      * Admin Dashboard View
@@ -30,7 +30,7 @@ public class DashboardController {
     public String adminDashboard(@PathVariable String token) {
 
         Map<String, String> validationResult =
-                tokenValidationService.validateToken(token, "admin");
+                tokenService.validateToken(token, "admin");
 
         // If map is empty → token is valid
         if (validationResult.isEmpty()) {
@@ -48,7 +48,7 @@ public class DashboardController {
     public String doctorDashboard(@PathVariable String token) {
 
         Map<String, String> validationResult =
-                tokenValidationService.validateToken(token, "doctor");
+                tokenService.validateToken(token, "doctor");
 
         if (validationResult.isEmpty()) {
             return "doctor/doctorDashboard";

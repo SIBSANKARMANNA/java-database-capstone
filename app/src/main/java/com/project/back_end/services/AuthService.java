@@ -2,12 +2,16 @@ import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 
 
 
 @Service
-public class Service {
+public class AuthService {
 
     private final TokenService tokenService;
     private final AdminRepository adminRepo;
@@ -16,7 +20,7 @@ public class Service {
     private final DoctorService doctorService;
     private final PatientService patientService;
 
-    public Service(
+    public AuthService(
             TokenService tokenService,
             AdminRepository adminRepo,
             DoctorRepository doctorRepo,
