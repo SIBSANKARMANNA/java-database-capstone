@@ -29,13 +29,12 @@ public class DashboardController {
     @GetMapping("/adminDashboard/{token}")
     public String adminDashboard(@PathVariable String token) {
 
-        Map<String, String> validationResult =
-                tokenService.validateToken(token, "admin");
 
-        // If map is empty → token is valid
-        if (validationResult.isEmpty()) {
+        boolean isValid = tokenService.validateToken(token, "admin");
+        if (isValid) {
             return "admin/adminDashboard";
         }
+
 
         // Token invalid → redirect to login
         return "redirect:/";
@@ -47,12 +46,18 @@ public class DashboardController {
     @GetMapping("/doctorDashboard/{token}")
     public String doctorDashboard(@PathVariable String token) {
 
-        Map<String, String> validationResult =
-                tokenService.validateToken(token, "doctor");
+        // Map<String, String> validationResult =
+        //         tokenService.validateToken(token, "doctor");
 
-        if (validationResult.isEmpty()) {
+        // if (validationResult.isEmpty()) {
+        //     return "doctor/doctorDashboard";
+        // }
+
+        boolean isValid = tokenService.validateToken(token, "doctor");
+        if (isValid) {
             return "doctor/doctorDashboard";
         }
+
 
         return "redirect:/";
     }

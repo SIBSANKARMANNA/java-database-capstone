@@ -1,12 +1,14 @@
+package com.project.back_end.controllers;
+
+import com.project.back_end.mongo.models.Prescription;
+import com.project.back_end.services.PrescriptionService;
+import com.project.back_end.services.AuthService;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
-
-
-
 
 @RestController
 @RequestMapping("${api.path}prescription")
@@ -16,14 +18,14 @@ public class PrescriptionController {
     private PrescriptionService prescriptionService;
 
     @Autowired
-    private Service service;
+    private AuthService authService;
 
     @PostMapping("/{token}")
     public ResponseEntity<Map<String, String>> save(
             @RequestBody Prescription prescription,
             @PathVariable String token) {
 
-        service.validateToken(token, "doctor");
+        authService.validateToken(token, "doctor");
         return prescriptionService.savePrescription(prescription);
     }
 
@@ -32,7 +34,7 @@ public class PrescriptionController {
             @PathVariable Long appointmentId,
             @PathVariable String token) {
 
-        service.validateToken(token, "doctor");
+        authService.validateToken(token, "doctor");
         return prescriptionService.getPrescription(appointmentId);
     }
 }

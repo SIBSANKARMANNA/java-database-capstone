@@ -1,5 +1,5 @@
 package com.project.back_end.dto;
-
+import com.project.back_end.models.Appointment;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -65,4 +65,20 @@ public class AppointmentDTO {
     public LocalDate getAppointmentDate() { return appointmentDate; }
     public LocalTime getAppointmentTimeOnly() { return appointmentTimeOnly; }
     public LocalDateTime getEndTime() { return endTime; }
+
+    public AppointmentDTO(Appointment a) {
+    this(
+        a.getId(),
+        a.getDoctor().getId(),
+        a.getDoctor().getName(),
+        a.getPatient().getId(),
+        a.getPatient().getName(),
+        a.getDoctor().getSpecialty(),
+        a.getDoctor().getEmail(),
+        a.getDoctor().getPhone(),
+        a.getAppointmentTime(),
+        a.getStatus()
+    );
+}
+
 }

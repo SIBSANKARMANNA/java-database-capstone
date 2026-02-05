@@ -1,24 +1,29 @@
-import org.springframework.web.bind.annotation.*;
+package com.project.back_end.controllers;
+
+import com.project.back_end.models.Admin;
+import com.project.back_end.services.AuthService;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
-
-
-
-
 
 @RestController
 @RequestMapping("${api.path}admin")
 public class AdminController {
 
     @Autowired
-    private Service service;
+    private AuthService authService;
 
     @PostMapping
     public ResponseEntity<Map<String, String>> adminLogin(
             @RequestBody Admin admin) {
-        return service.validateAdmin(admin);
+
+        return authService.validateAdmin(admin);
     }
 }

@@ -1,17 +1,15 @@
-import java.util.List;
-import java.util.Map;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+package com.project.back_end.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.project.back_end.mongo.models.Prescription;
+import com.project.back_end.repo.mongo.PrescriptionRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 
-
-
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PrescriptionService {
@@ -22,14 +20,9 @@ public class PrescriptionService {
     public ResponseEntity<Map<String, String>> savePrescription(
             Prescription prescription) {
 
-        try {
-            prescriptionRepository.save(prescription);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(Map.of("message", "Prescription saved"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("message", "Error saving prescription"));
-        }
+        prescriptionRepository.save(prescription);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Map.of("message", "Prescription saved"));
     }
 
     public ResponseEntity<Map<String, Object>> getPrescription(
@@ -38,6 +31,8 @@ public class PrescriptionService {
         List<Prescription> prescriptions =
                 prescriptionRepository.findByAppointmentId(appointmentId);
 
-        return ResponseEntity.ok(Map.of("prescriptions", prescriptions));
+        return ResponseEntity.ok(
+                Map.of("prescriptions", prescriptions)
+        );
     }
 }

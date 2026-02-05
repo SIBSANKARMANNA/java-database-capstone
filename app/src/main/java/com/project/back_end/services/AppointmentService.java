@@ -1,16 +1,22 @@
-import java.util.List;
-import java.util.Map;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+package com.project.back_end.services;
+
+import com.project.back_end.models.Appointment;
+import com.project.back_end.models.Doctor;
+
+import com.project.back_end.repo.jpa.AppointmentRepository;
+import com.project.back_end.repo.jpa.DoctorRepository;
+
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-
-
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -20,9 +26,6 @@ public class AppointmentService {
 
     @Autowired
     private DoctorRepository doctorRepository;
-
-    @Autowired
-    private PatientRepository patientRepository;
 
     @Autowired
     private TokenService tokenService;
@@ -42,7 +45,8 @@ public class AppointmentService {
     /* =========================
        UPDATE APPOINTMENT
     ========================= */
-    public ResponseEntity<Map<String, String>> updateAppointment(Appointment appointment) {
+    public ResponseEntity<Map<String, String>> updateAppointment(
+            Appointment appointment) {
 
         Optional<Appointment> existing =
                 appointmentRepository.findById(appointment.getId());
@@ -59,7 +63,8 @@ public class AppointmentService {
     /* =========================
        CANCEL APPOINTMENT
     ========================= */
-    public ResponseEntity<Map<String, String>> cancelAppointment(long id, String token) {
+    public ResponseEntity<Map<String, String>> cancelAppointment(
+            long id, String token) {
 
         Optional<Appointment> appointmentOpt =
                 appointmentRepository.findById(id);
@@ -77,17 +82,21 @@ public class AppointmentService {
        GET APPOINTMENTS (DOCTOR)
     ========================= */
     public Map<String, Object> getAppointment(
-            String pname, LocalDate date, String token) {
+            String patientName, LocalDate date, String token) {
 
         String email = tokenService.extractIdentifier(token);
         Doctor doctor = doctorRepository.findByEmail(email);
+
+        if (doctor == null) {
+            return Map.of("appointments", List.of());
+        }
 
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.atTime(LocalTime.MAX);
 
         List<Appointment> appointments;
 
-        if (pname == null || pname.equals("null")) {
+        if (patientName == null || "null".equals(patientName)) {
             appointments =
                     appointmentRepository.findByDoctorIdAndAppointmentTimeBetween(
                             doctor.getId(), start, end);
@@ -95,7 +104,7 @@ public class AppointmentService {
             appointments =
                     appointmentRepository
                             .findByDoctorIdAndPatient_NameContainingIgnoreCaseAndAppointmentTimeBetween(
-                                    doctor.getId(), pname, start, end);
+                                    doctor.getId(), patientName, start, end);
         }
 
         return Map.of("appointments", appointments);

@@ -1,35 +1,50 @@
-import org.springframework.web.bind.annotation.*;
+package com.project.back_end.controllers;
+
+import com.project.back_end.models.Patient;
+import com.project.back_end.models.Login;
+import com.project.back_end.services.PatientService;
+import com.project.back_end.services.AuthService;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
-
-
-
-
 @RestController
-@RequestMapping("/patient")
+@RequestMapping("${api.path}patient")
 public class PatientController {
 
     @Autowired
     private PatientService patientService;
 
     @Autowired
-    private Service service;
+    private AuthService authService;
 
+    /* =========================
+       PATIENT SIGNUP
+    ========================= */
     @PostMapping
     public ResponseEntity<Map<String, String>> signup(
             @RequestBody Patient patient) {
 
-        if (!service.validatePatient(patient)) {
+        if (!authService.validatePatient(patient)) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("message",
-                            "Patient with email id or phone no already exist"));
+                    .body(Map.of(
+                            "message",
+                            "Patient with email or phone already exists"
+                    ));
         }
 
         int result = patientService.createPatient(patient);
+
         return result == 1
                 ? ResponseEntity.status(HttpStatus.CREATED)
                     .body(Map.of("message", "Signup successful"))
@@ -37,37 +52,54 @@ public class PatientController {
                     .body(Map.of("message", "Internal server error"));
     }
 
+    /* =========================
+       PATIENT LOGIN
+    ========================= */
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(
             @RequestBody Login login) {
-        return service.validatePatientLogin(login);
+
+        return authService.validatePatientLogin(login);
     }
 
+    /* =========================
+       PATIENT PROFILE
+    ========================= */
     @GetMapping("/{token}")
     public ResponseEntity<Map<String, Object>> getProfile(
             @PathVariable String token) {
 
         ResponseEntity<Map<String, String>> auth =
-                service.validateToken(token, "patient");
-        if (!auth.getBody().isEmpty())
+                authService.validateToken(token, "patient");
+
+        if (!auth.getBody().isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         return patientService.getPatientDetails(token);
     }
 
+    /* =========================
+       PATIENT APPOINTMENTS
+    ========================= */
     @GetMapping("/{id}/{token}")
     public ResponseEntity<Map<String, Object>> getAppointments(
             @PathVariable Long id,
             @PathVariable String token) {
 
         ResponseEntity<Map<String, String>> auth =
-                service.validateToken(token, "patient");
-        if (!auth.getBody().isEmpty())
+                authService.validateToken(token, "patient");
+
+        if (!auth.getBody().isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         return patientService.getPatientAppointment(id, token);
     }
 
+    /* =========================
+       FILTER APPOINTMENTS
+    ========================= */
     @GetMapping("/filter/{condition}/{name}/{token}")
     public ResponseEntity<Map<String, Object>> filterAppointments(
             @PathVariable String condition,
@@ -75,10 +107,12 @@ public class PatientController {
             @PathVariable String token) {
 
         ResponseEntity<Map<String, String>> auth =
-                service.validateToken(token, "patient");
-        if (!auth.getBody().isEmpty())
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                authService.validateToken(token, "patient");
 
-        return service.filterPatient(condition, name, token);
+        if (!auth.getBody().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return authService.filterPatient(condition, name, token);
     }
 }

@@ -1,17 +1,18 @@
-import java.util.List;
-import java.util.Map;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+package com.project.back_end.services;
+
+import com.project.back_end.models.Patient;
+import com.project.back_end.dto.AppointmentDTO;
+
+import com.project.back_end.repo.jpa.PatientRepository;
+import com.project.back_end.repo.jpa.AppointmentRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-
-
-
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PatientService {
@@ -46,7 +47,7 @@ public class PatientService {
         String email = tokenService.extractIdentifier(token);
         Patient patient = patientRepository.findByEmail(email);
 
-        if (!patient.getId().equals(id)) {
+        if (patient == null || !patient.getId().equals(id)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -118,6 +119,10 @@ public class PatientService {
 
         String email = tokenService.extractIdentifier(token);
         Patient patient = patientRepository.findByEmail(email);
+
+        if (patient == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         return ResponseEntity.ok(Map.of("patient", patient));
     }

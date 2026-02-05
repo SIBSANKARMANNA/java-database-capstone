@@ -1,14 +1,25 @@
-import java.util.List;
-import java.util.Map;
+package com.project.back_end.services;
+
+import com.project.back_end.models.Doctor;
+import com.project.back_end.models.Appointment;
+import com.project.back_end.models.Login;
+
+import com.project.back_end.repo.jpa.DoctorRepository;
+import com.project.back_end.repo.jpa.AppointmentRepository;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import java.time.LocalTime;
 
-
-
-
+import java.util.List;
+import java.util.Set;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class DoctorService {
@@ -39,11 +50,14 @@ public class DoctorService {
 
         Set<String> booked =
                 appointments.stream()
-                        .map(a -> a.getAppointmentTime().toLocalTime().toString())
+                        .map(a -> a.getAppointmentTime()
+                                .toLocalTime()
+                                .toString()
+                                .substring(0, 5))
                         .collect(Collectors.toSet());
 
         return doctor.getAvailableTimes().stream()
-                .filter(t -> !booked.contains(t.substring(0, 5)))
+                .filter(t -> !booked.contains(t))
                 .toList();
     }
 
@@ -107,20 +121,48 @@ public class DoctorService {
                     .body(Map.of("message", "Invalid credentials"));
         }
 
-        String token =
-                tokenService.generateToken(doctor.getEmail());
-
+        String token = tokenService.generateToken(doctor.getEmail());
         return ResponseEntity.ok(Map.of("token", token));
     }
 
     /* =========================
-       FILTER HELPERS
+       FILTER DOCTORS (REQUIRED)
+    ========================= */
+    public Map<String, Object> filterDoctors(
+            String name, String specialty, String time) {
+
+        List<Doctor> doctors = doctorRepository.findAll();
+
+        if (!"null".equals(name)) {
+            doctors = doctors.stream()
+                    .filter(d -> d.getName()
+                            .toLowerCase()
+                            .contains(name.toLowerCase()))
+                    .toList();
+        }
+
+        if (!"null".equals(specialty)) {
+            doctors = doctors.stream()
+                    .filter(d -> d.getSpecialty()
+                            .equalsIgnoreCase(specialty))
+                    .toList();
+        }
+
+        if (!"null".equals(time)) {
+            doctors = filterDoctorByTime(doctors, time);
+        }
+
+        return Map.of("doctors", doctors);
+    }
+
+    /* =========================
+       FILTER BY TIME
     ========================= */
     public List<Doctor> filterDoctorByTime(List<Doctor> doctors, String amOrPm) {
         return doctors.stream()
                 .filter(d ->
                         d.getAvailableTimes().stream()
-                                .anyMatch(t -> t.contains(amOrPm)))
+                                .anyMatch(t -> t.toLowerCase().contains(amOrPm.toLowerCase())))
                 .toList();
     }
 }
